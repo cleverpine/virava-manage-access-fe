@@ -1,0 +1,61 @@
+<div class="table-wrapper">
+  <ejs-grid
+    #grid
+    [allowReordering]="configObj.allowColumnReordering"
+    [allowResizing]="configObj.allowResizing"
+    [allowRowDragAndDrop]="configObj.allowRowReordering"
+    [allowSelection]="configObj.allowSelection"
+    [allowSorting]="configObj.allowSorting"
+    [allowExcelExport]="configObj.allowExcelExport?.showExcelExportButton"
+    [dataSource]="data"
+    [pageSettings]="pageSettings"
+    [gridLines]="configObj.gridLines"
+    [rowHeight]="DEFAULT_ROW_GRID_HEIGHT"
+    [showColumnChooser]="configObj.showColumnChooser"
+    [showColumnMenu]="true"
+    [toolbar]="toolbarOptions"
+    (toolbarClick)="toolbarButtonsHandler($event)"
+    (click)="handleClick($event)"
+    [allowMultiSorting]="configObj.allowMultiSorting"
+    [allowPaging]="configObj.allowPaging"
+    [allowFiltering]="configObj.allowFiltering"
+    [allowReordering]="configObj.allowColumnReordering"
+    [allowRowDragAndDrop]="configObj.allowRowReordering"
+    [allowTextWrap]="configObj.allowTextWrap"
+    [textWrapSettings]="configObj.allowTextWrap && { wrapMode: configObj.textWrapSettings }"
+    [enableHover]="configObj.enableHover"
+    (headerCellInfo)="configObj.allowHeaderTooltip && headerCellInfo($event)"
+    (dataBound)="onDataBound()"
+    height="100%"
+  >
+    <e-columns>
+      <ng-container *ngFor="let column of columns">
+        <e-column
+          [field]="column.field"
+          [headerText]="column.headerText"
+          [width]="column.width || DEFAULT_COLUMN_GRID_WIDTH"
+          [minWidth]="column.minWidth"
+          [allowSorting]="column.allowSorting"
+          [allowFiltering]="column.allowFiltering"
+          [visible]="column.visible"
+        >
+          <ng-template *ngIf="column.type === columnType.Actions && column.actionsConfig" #template let-item>
+            <div class="{{ column.className }}">
+              <button
+                *ngFor="let actionValue of column.actionsConfig"
+                mat-icon-button
+                matTooltip="{{ actionValue.tooltip }}"
+                (click)="actionValue.action(item)"
+              >
+                <mat-icon>{{ actionValue.icon }}</mat-icon>
+              </button>
+            </div>
+          </ng-template>
+          <ng-template *ngIf="column.type === columnType.NestedValue" #template let-item>
+            {{ handleNestedColumnValue(item.index, column.field) }}
+          </ng-template>
+        </e-column>
+      </ng-container>
+    </e-columns>
+  </ejs-grid>
+</div>

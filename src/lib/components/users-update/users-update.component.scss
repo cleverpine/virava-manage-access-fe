@@ -1,0 +1,60 @@
+.card-layout-wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 570px;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+
+  .title {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .users-update-container {
+      display: flex;
+      margin-top: 2rem;
+
+      .update-container {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+
+        .selectbox-container {
+          width: 95%;
+
+          .selectbox-input {
+            width: 100%;
+            max-width: 480px;
+          }
+        }
+      }
+    }
+
+    .buttons-container {
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .back-button {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.select-all-button {
+  font-weight: bold;
+  ::ng-deep.mat-pseudo-checkbox {
+    display: none;
+  }
+}

@@ -1,0 +1,25 @@
+<h1 *ngIf="title" mat-dialog-title>{{ title }}</h1>
+<span *ngIf="content" mat-dialog-content>{{ content }}</span>
+<span *ngIf="contentWarning" class="error-msg" mat-dialog-content>{{ contentWarning }}</span>
+
+<div mat-dialog-actions align="end">
+  <button
+    tabindex="-1"
+    *ngIf="hasCloseButton"
+    mat-stroked-button
+    [ngClass]="hasOkButton ? 'custom-btn-secondary' : 'custom-btn-primary mat-raised-button'"
+    (click)="close()"
+  >
+    {{ closeTitle }}
+  </button>
+  <button
+    tabindex="-1"
+    *ngIf="hasOkButton"
+    mat-raised-button
+    class="custom-btn-primary mat-raised-button"
+    [ngClass]="isOkButtonRed ? 'bg-danger' : ''"
+    [mat-dialog-close]="true"
+  >
+    {{ okTitle }}
+  </button>
+</div>

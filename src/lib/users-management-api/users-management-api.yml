@@ -1,0 +1,615 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Virava User Access Management
+  description: This is an OpenAPI YAML configuration file for Virava User Access Management
+
+tags:
+  - name: "AMUser"
+    description: All user related methods
+  - name: "AMPermission"
+    description: All permission related methods
+  - name: "AMUserPermission"
+    description: All user permission related methods
+  - name: "AMResource"
+    description: All resource permissions related methods
+
+paths:
+  /api/access-management/users:
+    get:
+      summary: Get all users
+      description: This is a method for retrieving all users
+      tags:
+        - "AMUser"
+      operationId: getAllUsers
+      security:
+        - BearerAuth: [ ]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMUserListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      summary: Create user
+      description: This is a method for creating a user
+      tags:
+        - "AMUser"
+      operationId: createUser
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        description: This is the object for creating a User
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AMUserInfo'
+      responses:
+        "201":
+          description: "CREATED"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMUserInfoResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/users/{id}:
+    get:
+      summary: Get user
+      description: This is a method for retrieving information about the user
+      tags:
+        - "AMUser"
+      operationId: getUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the user id
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMUserInfoResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      summary: Delete user
+      description: This is a method for deleting a user
+      tags:
+        - "AMUser"
+      operationId: deleteUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the user id
+      responses:
+        "204":
+          description: "NO_CONTENT"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      summary: Update user
+      description: This is a method for updating a user
+      tags:
+        - "AMUser"
+      operationId: updateUser
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the user id
+      requestBody:
+        description: This is the object for updating a user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AMUserInfo'
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMUserInfoResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/users/{userId}/permission/{permissionId}:
+    post:
+      summary: Assign permission to user
+      description: This is a method for assigning a permission to a user
+      tags:
+        - "AMUserPermission"
+      operationId: assignPermission
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the user id
+        - name: permissionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the permission id
+      responses:
+        "204":
+          description: "NO_CONTENT"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/user/resource/{resourceName}:
+    get:
+      summary: Get user's resources by name
+      description: This is a method for retrieving all resources by name for a specific user
+      tags:
+        - "AMResource"
+      operationId: getUserResourcesByName
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: resourceName
+          in: path
+          required: true
+          description: The name of the resource
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMResourceListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/users/{userId}/resource/{resourceName}:
+    post:
+      summary: Assign resource permission to user
+      description: This is a method for assigning a resource permission to a user
+      tags:
+        - "AMUserPermission"
+      operationId: assignResourcePermission
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the user id
+        - name: resourceName
+          in: path
+          required: true
+          schema:
+            type: string
+            description: This is the resource name
+      requestBody:
+        description: This is the request body for assigning a resource permission to a user
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AMResourcePermission"
+      responses:
+        "204":
+          description: "NO_CONTENT"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/resources:
+    get:
+      summary: Get all resources
+      description: This is a method for retrieving all resources
+      tags:
+        - "AMResource"
+      operationId: getAllResources
+      security:
+        - BearerAuth: [ ]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMResourceListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      summary: Create resource
+      description: This is a method for creating a resource
+      tags:
+        - "AMResource"
+      operationId: createResource
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        description: This is the object for creating a resource
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AMCreateResourceRequest'
+      responses:
+        "201":
+          description: "CREATED"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMResourceResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/resources/{id}:
+    delete:
+      summary: Delete resource
+      description: This is a method for deleting a resource
+      tags:
+        - "AMResource"
+      operationId: deleteResource
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            description: This is the resource id
+      responses:
+        "204":
+          description: "NO_CONTENT"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  /api/access-management/permissions:
+    get:
+      summary: Get all permissions
+      description: This is a method for retrieving all permissions
+      tags:
+        - "AMPermission"
+      operationId: getPermissions
+      security:
+        - BearerAuth: [ ]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMPermissionListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      summary: Create permission
+      description: This is a method for creating a permission
+      tags:
+        - "AMPermission"
+      operationId: createPermission
+      security:
+        - BearerAuth: [ ]
+      requestBody:
+        required: true
+        description: Request body for creating a permission
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AMCreatePermissionRequest'
+      responses:
+        "201":
+          description: "CREATED"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AMPermissionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      description: This is the response object in case of errors, compliant with RFC7807
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorData"
+    ErrorData:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+    AMUserListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AMUser"
+        error:
+          $ref: "#/components/schemas/ErrorData"
+    AMUserInfoResponse:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/AMUserInfo"
+        error:
+          $ref: "#/components/schemas/ErrorData"
+    AMUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+    AMUserInfo:
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AMPermission'
+        resourcePermissions:
+          $ref: '#/components/schemas/AMResourcePermissions'
+      allOf:
+        - $ref: '#/components/schemas/AMUser'
+    AMResourcePermissions:
+      type: object
+      properties:
+        resourcePermissionMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AMResourcePermission'
+    AMPermission:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    AMCreatePermissionRequest:
+      description: This is an object for creating a permission
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+    AMPermissionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AMPermission'
+        error:
+          $ref: '#/components/schemas/ErrorData'
+    AMPermissionListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AMPermission"
+        error:
+          $ref: "#/components/schemas/ErrorData"
+    AMResourcePermission:
+      type: object
+      properties:
+        all:
+          type: boolean
+        ids:
+          type: array
+          items:
+            type: string
+    AMResourcePermissionsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AMResourcePermissions'
+        error:
+          $ref: '#/components/schemas/ErrorData'
+    AMResource:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          minLength: 1
+    AMResourceResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AMResource'
+        error:
+          $ref: '#/components/schemas/ErrorData'
+    AMResourceListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AMResource'
+        error:
+          $ref: '#/components/schemas/ErrorData'
+    AMCreateResourceRequest:
+      description: This is an object for creating a resource
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+  responses:
+    BadRequest:
+      description: "BAD REQUEST"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: "UNAUTHORIZED"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: "FORBIDDEN"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: "NOT FOUND"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalServerError:
+      description: "INTERNAL SERVER ERROR"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+security:
+  - BearerAuth: [ ]
