@@ -1,16 +1,32 @@
-trigger:
-  - main
-
-pr: none
+trigger: none
 
 pool:
   vmImage: ubuntu-latest
 
-resources:
-  repositories:
-    - repository: templates
-      type: git
-      name: DevOps/azure-pipeline-templates
+steps:
+- checkout: self
+  submodules: true
+  persistCredentials : true
 
-extends:
-  template: pipeline-fe-library.yaml@templates
+- task: Npm@1
+  displayName: NPM install
+  inputs:
+    command: 'install'
+
+- task: CmdLine@2
+  inputs:
+    script: 'ng --version'
+
+- task: Npm@1
+  displayName: NPM build
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+
+
+# - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+#     - task: Npm@1
+#       displayName: NPM publish to NPM Registry
+#       inputs:
+#         command: 'publish'
+#         publishEndpoint: 'npm_cleverpine_dev_cicd'
