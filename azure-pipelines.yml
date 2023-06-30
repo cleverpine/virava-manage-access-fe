@@ -15,7 +15,10 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'ng --version'
+    script: |
+      npm install -g @angular/cli
+      
+      ng --version
 
 - task: Npm@1
   displayName: NPM build
