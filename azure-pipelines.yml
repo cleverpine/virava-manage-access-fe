@@ -18,13 +18,13 @@ steps:
     script: |
       npm install -g @angular/cli
       
-      # ng --version
+      npm run build
 
-- task: Npm@1
-  displayName: NPM build
-  inputs:
-    command: 'custom'
-    customCommand: 'run build'
+# - task: Npm@1
+#   displayName: NPM build
+#   inputs:
+#     command: 'custom'
+#     customCommand: 'run build'
 
 
 # - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
