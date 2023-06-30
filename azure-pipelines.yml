@@ -13,16 +13,12 @@ steps:
   inputs:
     command: 'install'
 
-- task: CmdLine@2
-  inputs:
-    command:
-      npm run build
 
-# - task: Npm@1
-#   displayName: NPM build
-#   inputs:
-#     command: 'custom'
-#     customCommand: 'run build'
+- task: Npm@1
+  displayName: NPM build
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
 
 
 # - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
