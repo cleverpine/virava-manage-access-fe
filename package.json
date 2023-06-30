@@ -2,6 +2,7 @@
   "name": "user-management",
   "version": "0.0.1",
   "peerDependencies": {
+    "@angular/cli": "~14.2.3",
     "@angular/core": "^14.2.0",
     "@syncfusion/ej2-angular-grids": "20.2.43",
     "@syncfusion/ej2-angular-inputs": "20.2.45",
