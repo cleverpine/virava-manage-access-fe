@@ -18,7 +18,7 @@ steps:
     script: |
       npm install -g @angular/cli
       
-      ng --version
+      # ng --version
 
 - task: Npm@1
   displayName: NPM build
