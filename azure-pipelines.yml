@@ -15,6 +15,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
+    command:
       npm run build
 
 # - task: Npm@1
