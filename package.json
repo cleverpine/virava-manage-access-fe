@@ -1,11 +1,11 @@
 {
   "name": "user-management",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-library": "ng build tile",
+    "build-library": "ng build user-management",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
