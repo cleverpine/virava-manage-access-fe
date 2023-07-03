@@ -18,7 +18,7 @@ steps:
   displayName: NPM build
   inputs:
     command: 'custom'
-    customCommand: 'run build'
+    customCommand: 'run build-library'
 
 
 # - ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/main') }}:
