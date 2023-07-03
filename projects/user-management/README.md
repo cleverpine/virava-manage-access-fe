@@ -86,14 +86,14 @@ Use **ResourcePermissionCondition** to add a custom condition to a resource perm
 
 ```js
 const resourcePermissionCondition = {
-  name: "WORKSHOP",
+  name: 'WORKSHOP',
   roles: [
-    "TOP_responsible_Housing_and_Facilities",
-    "TOP_responsible_Personnel",
-    "TOP_responsible_Material",
-    "TOP_responsible_technical",
-    "TOP_responsible_Tooling_and_Equipment",
-    "TOP_responsible_Work_Safety_and_Environmental_Aspects",
+    'TOP_responsible_Housing_and_Facilities',
+    'TOP_responsible_Personnel',
+    'TOP_responsible_Material',
+    'TOP_responsible_technical',
+    'TOP_responsible_Tooling_and_Equipment',
+    'TOP_responsible_Work_Safety_and_Environmental_Aspects',
   ],
 };
 ```

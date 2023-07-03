@@ -1,0 +1,205 @@
+// Colors
+$color-text-main: #05164dde;
+$color-text-secondary: #0f8dc5;
+$color-text-white: #ffffff;
+
+$color-bg-main: #05164d;
+
+$color-button: #0f8dc5;
+$color-button-hover: #1a2e6f;
+$color-button-pressed: #0f8dc51f;
+
+$color-background-white: #ffffff;
+
+$color-status-danger: #cc0000;
+$color-status-info: #ef7c00;
+$color-status-success: #49a66a;
+$color-status-inactive: #7e7e7e;
+
+$color-error-text: #cc0000;
+$color-bg-light: #f5f5f5;
+
+// Widths
+$width-sidebar: 260px;
+
+// Font weight
+$font-bold: 600;
+
+.asterisk {
+  color: $color-error-text;
+}
+
+.title {
+  margin-bottom: 0.8rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+
+  .col > div {
+    display: flex;
+    flex-direction: column;
+    line-height: 2rem;
+  }
+}
+
+.link {
+  color: $color-text-secondary;
+}
+
+// Statuses
+.status {
+  border: 0.06rem solid;
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  text-align: center;
+}
+
+.status-success {
+  border-color: $color-status-success;
+  color: $color-status-success;
+}
+
+.status-danger {
+  border-color: $color-status-danger;
+  color: $color-status-danger;
+}
+
+.status-info {
+  border-color: $color-status-info;
+  color: $color-status-info;
+}
+
+.status-inactive {
+  border-color: $color-status-inactive;
+  color: $color-status-inactive;
+}
+
+.error-msg {
+  color: $color-error-text;
+}
+
+.table-wrapper {
+  height: 100%;
+
+  .status {
+    padding: 0.6rem 0.4rem;
+  }
+
+  .e-gridheader.e-lib.e-droppable,
+  .e-gridcontent > .e-content {
+    padding-right: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  .e-row {
+    cursor: pointer;
+  }
+
+  .e-headercell {
+    padding-top: 0.9rem;
+  }
+
+  .e-headertext,
+  .e-rowcell {
+    color: $color-text-main;
+  }
+
+  .e-checkbox-wrapper .e-frame.e-check,
+  .e-css.e-checkbox-wrapper .e-frame.e-check {
+    background-color: $color-button;
+  }
+
+  .e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+  .e-input-group:not(.e-float-icon-left):not(.e-float-input)::after,
+  .e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+  .e-input-group.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after,
+  .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before,
+  .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after,
+  .e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::before,
+  .e-input-group.e-control-wrapper.e-float-icon-left:not(.e-float-input) .e-input-in-wrap::after {
+    background-color: $color-bg-main;
+  }
+
+  ::ng-deep.e-toolbar-items {
+    background-color: $color-bg-light;
+  }
+
+  ::ng-deep.e-tbar-btn {
+    background-color: $color-bg-light;
+
+    &:hover {
+      background-color: $color-button-pressed;
+    }
+
+    span {
+      color: $color-button-hover !important;
+
+      &::before {
+        color: $color-button-hover;
+      }
+    }
+  }
+
+  ::ng-deep.e-grid .e-pager .e-currentitem,
+  .e-pager .e-currentitem:hover {
+    background-color: $color-button;
+  }
+
+  ::ng-deep.e-control.e-btn.e-lib.e-cc.e-cc_okbtn.e-primary.e-flat {
+    color: $color-text-white;
+    background-color: $color-button;
+
+    &:hover {
+      background-color: $color-button-hover;
+    }
+  }
+
+  ::ng-deep.e-control.e-btn.e-lib.e-flat.e-cc.e-cc-cnbtn {
+    width: fit-content;
+    color: $color-button;
+    border-color: $color-button;
+  }
+
+  .e-rowdragdrop.e-rowdragdropcell {
+    vertical-align: middle;
+  }
+}
+
+.e-checkbox-wrapper.e-css .e-frame.e-icons.e-check {
+  background-color: $color-button;
+}
+
+::ng-deep .e-filterdiv:has(.e-filtertext.e-input.e-disable) {
+  display: none !important;
+}
+
+// Toolbar
+::ng-deep.e-toolbar .e-toolbar-items .e-toolbar-right .e-toolbar-item {
+  // Add new button
+  #addNewBtn > .e-tbar-btn-text {
+    font-weight: $font-bold !important;
+    color: $color-button !important;
+  }
+}
+
+::ng-deep .e-pagerexternalmsg {
+  display: none !important;
+}
+
+.e-filterbarcell:has(button) {
+  padding: 0 !important;
+}
+
+.e-filtertext.e-input.e-disable {
+  position: absolute;
+  background: $color-background-white;
+  pointer-events: none;
+}
+
+.users-actions-column {
+  display: flex;
+  justify-content: flex-end;
+}
