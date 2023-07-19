@@ -75,24 +75,6 @@ export class DataGridComponent {
     }
   }
 
-  handleNestedColumnValue(item: number, field: string) {
-    if (!this.data) {
-      return;
-    }
-
-    const fields = field.split('.');
-    let currentObject = this.data[+item];
-
-    for (let field of fields) {
-      currentObject = currentObject[field];
-      if (!currentObject) {
-        return null;
-      }
-    }
-
-    return currentObject;
-  }
-
   handleClick(e: MouseEvent): any {
     const ifTargetClassListContains =
       (e.target as Element).classList.contains('e-rowcell') || (e.target as Element).classList.contains('status');

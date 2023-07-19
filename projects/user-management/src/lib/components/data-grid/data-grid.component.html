@@ -44,15 +44,12 @@
               <button
                 *ngFor="let actionValue of column.actionsConfig"
                 mat-icon-button
-                matTooltip="{{ actionValue.tooltip }}"
+                matTooltip="{{ actionValue.tooltip }} "
                 (click)="actionValue.action(item)"
               >
-                <mat-icon>{{ actionValue.icon }}</mat-icon>
+                <mat-icon> {{ actionValue.icon }}</mat-icon>
               </button>
             </div>
-          </ng-template>
-          <ng-template *ngIf="column.type === columnType.NestedValue" #template let-item>
-            {{ handleNestedColumnValue(item.index, column.field) }}
           </ng-template>
         </e-column>
       </ng-container>

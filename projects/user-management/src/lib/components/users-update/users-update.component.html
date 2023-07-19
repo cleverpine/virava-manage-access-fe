@@ -37,43 +37,48 @@
 
     <div>
       <div class="users-update-container">
-        <div class="update-container" *ngFor="let resourcePermission of this.resourcePermissions">
-          <div class="selectbox-container" *ngIf="showResourcePermissions(resourcePermission)">
-            <mat-form-field class="selectbox-input">
-              <mat-label> Select {{ resourcePermission?.name?.toLowerCase() }}s </mat-label>
-              <mat-select formControlName="{{ resourcePermission.name }}" multiple>
-                <mat-select-trigger> </mat-select-trigger>
-                <mat-option (click)="toggleAllOptions(resourcePermission.name)" class="select-all-button">
-                  {{ toggleAllOptionsState ? 'Deselect All' : 'Select All' }}
-                </mat-option>
+        <ng-container *ngFor="let resourcePermission of this.resourcePermissions">
+          <div class="update-container" *ngIf="showResourcePermissions(resourcePermission)">
+            <div class="selectbox-container">
+              <mat-form-field class="selectbox-input">
+                <mat-label> Select {{ resourcePermission?.name?.toLowerCase() }}s </mat-label>
+                <mat-select formControlName="{{ resourcePermission.name }}" multiple>
+                  <mat-select-trigger> </mat-select-trigger>
+                  <mat-option (click)="toggleAllOptions(resourcePermission.name)" class="select-all-button">
+                    {{ toggleAllOptionsState ? 'Deselect All' : 'Select All' }}
+                  </mat-option>
 
-                <mat-option *ngFor="let value of resourcePermission.values" [value]="value">
-                  {{ value.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <h1>Assigned {{ resourcePermission?.name?.toLowerCase() }}s:</h1>
-            <mat-chip-list *ngIf="resourcePermission.name">
-              <mat-chip
-                *ngFor="let resourceValue of userUpdateForm.get(resourcePermission.name)?.value ?? []"
-                [removable]="true"
-                (removed)="
-                  resourcePermission.name && onChipRemoved(userUpdateForm.get(resourcePermission.name)!, resourceValue)
-                "
-                color="primary"
-                selected
-              >
-                {{ resourceValue.name }}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
-            </mat-chip-list>
+                  <mat-option *ngFor="let value of resourcePermission.values" [value]="value">
+                    {{ value.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <h1>Assigned {{ resourcePermission?.name?.toLowerCase() }}s:</h1>
+              <mat-chip-list *ngIf="resourcePermission.name">
+                <mat-chip
+                  *ngFor="let resourceValue of userUpdateForm.get(resourcePermission.name)?.value ?? []"
+                  [removable]="true"
+                  (removed)="
+                    resourcePermission.name &&
+                      onChipRemoved(userUpdateForm.get(resourcePermission.name)!, resourceValue)
+                  "
+                  color="primary"
+                  selected
+                >
+                  {{ resourceValue.name }}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
 
     <div class="buttons-container">
-      <button mat-raised-button class="custom-btn-secondary back-button" (click)="onBackButtonClick()">Back</button>
+      <button mat-raised-button class="custom-btn-secondary back-button" (click)="onBackButtonClick()" type="button">
+        Back
+      </button>
       <button
         mat-raised-button
         class="custom-btn-primary"

@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { UsersUpdateComponent } from './components/users-update/users-update.component';
 import { UsersListingComponent } from './components/users-listing/users-listing.component';
 
-import { UserResolverService } from './users-resolver.service';
+import { SingleUserResolverService } from './services/individual-user-resolver.service';
+import { UsersResolverService } from './services/users-resolver.service';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
             link: 'users-management/users',
           },
         },
+        resolve: { resolveData: UsersResolverService },
       },
       {
         path: 'users',
@@ -43,7 +45,7 @@ const routes: Routes = [
                 title: 'User Update',
               },
             },
-            resolve: { resolveData: UserResolverService },
+            resolve: { resolveData: SingleUserResolverService },
           },
         ],
       },

@@ -1,10 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 import { AmPermission, AmUserInfo } from '../../openapi/models';
-import { AmPermissionService, AmResourceService, AmUserService } from '../../openapi/services';
+import {
+  AmPermissionService,
+  AmResourceService,
+  AmUserService,
+} from '../../openapi/services';
 
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
@@ -45,7 +54,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     private permissionService: AmPermissionService,
     private userService: AmUserService,
     private notificationService: NotificationService,
-    private userManagementServiceLib: UserManagementServiceLib,
+    private userManagementServiceLib: UserManagementServiceLib
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +63,8 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     });
     this.rolesControl = this.userUpdateForm.get('roles')!;
 
-    this.resourcePermissionCondition = this.userManagementServiceLib.libConfig.resourcePermissionCondition;
+    this.resourcePermissionCondition =
+      this.userManagementServiceLib.libConfig.resourcePermissionCondition;
 
     this.user = this.route.snapshot.data?.['resolveData'].data;
 
@@ -64,7 +74,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     // Check if any show condition is set and add validators
     this.rolesControl?.valueChanges.subscribe((roles) => {
       this.showConditionPermission = roles.some((role: AmPermission) =>
-        this.resourcePermissionCondition?.roles.includes(role.name as string),
+        this.resourcePermissionCondition?.roles.includes(role.name as string)
       );
 
       this.assignResourcePermissionValidators();
@@ -77,7 +87,10 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    return this.resourcePermissionCondition?.name === resourcePermission.name && this.showConditionPermission;
+    return (
+      this.resourcePermissionCondition?.name === resourcePermission.name &&
+      this.showConditionPermission
+    );
   }
 
   assignResourcePermissionValidators() {
@@ -85,7 +98,9 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const updateForm = this.userUpdateForm.get(this.resourcePermissionCondition.name);
+    const updateForm = this.userUpdateForm.get(
+      this.resourcePermissionCondition.name
+    );
 
     if (this.showConditionPermission) {
       updateForm?.setValidators([Validators.required]);
@@ -123,7 +138,10 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
           // Add the values of every provided resource permission
           for (const resourcePermission of this.resourcePermissions) {
             this.getResourcePermissionValues(resourcePermission.name as string);
-            this.userUpdateForm.addControl(resourcePermission.name as string, this.formBuilder.control([]));
+            this.userUpdateForm.addControl(
+              resourcePermission.name as string,
+              this.formBuilder.control([])
+            );
           }
         },
         error: (err) => {
@@ -143,7 +161,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           let currentResourcePermission = this.resourcePermissions.find(
-            (resource) => resource.name === resourcePermission,
+            (resource) => resource.name === resourcePermission
           );
 
           if (!currentResourcePermission) {
@@ -153,19 +171,28 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
           currentResourcePermission.values = res.data;
 
           // Taking the current USER resource permissions
-          const userResourcePermissionMap = this.user.resourcePermissions?.resourcePermissionMap;
-          const userResourcePermissionValueIds = userResourcePermissionMap?.[resourcePermission]?.ids || [];
+          const userResourcePermissionMap =
+            this.user.resourcePermissions?.resourcePermissionMap;
+          const userResourcePermissionValueIds =
+            userResourcePermissionMap?.[resourcePermission]?.ids || [];
 
           if (userResourcePermissionValueIds.length === 0) {
             return;
           }
 
-          const currentResources = currentResourcePermission.values.filter((resource) =>
-            resource.id ? userResourcePermissionValueIds.includes(resource.id.toString()) : false,
+          const currentResources = currentResourcePermission.values.filter(
+            (resource) =>
+              resource.id
+                ? userResourcePermissionValueIds.includes(
+                    resource.id.toString()
+                  )
+                : false
           );
 
           // Assigning the current USER resource permissions to form
-          this.userUpdateForm.get(resourcePermission)?.setValue(currentResources);
+          this.userUpdateForm
+            .get(resourcePermission)
+            ?.setValue(currentResources);
         },
         error: (err) => {
           this.notificationService.dispatchError(err);
@@ -197,7 +224,9 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     const allResourceValues =
       resourceName === 'roles'
         ? this.roles
-        : this.resourcePermissions.find((resource) => resource.name === resourceName)?.values;
+        : this.resourcePermissions.find(
+            (resource) => resource.name === resourceName
+          )?.values;
 
     if (this.toggleAllOptionsState && allResourceValues?.length) {
       this.userUpdateForm.get(resourceName)?.setValue([...allResourceValues]);
@@ -219,7 +248,10 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         username: this.user.username,
         permissions: [...this.userUpdateForm.get('roles')?.value],
         resourcePermissions: {
-          resourcePermissionMap: constructRpForRequest(this.resourcePermissions, this.userUpdateForm),
+          resourcePermissionMap: constructRpForRequest(
+            this.resourcePermissions,
+            this.userUpdateForm
+          ),
         },
         data: {
           ...this.user.data,
@@ -233,7 +265,9 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
         next: () => {
-          this.notificationService.dispatchSuccess('successMessages.successfullyUpdated');
+          this.notificationService.dispatchSuccess(
+            'successMessages.successfullyUpdated'
+          );
           this.router.navigate([`users-management/users`]);
         },
         error: (err) => {

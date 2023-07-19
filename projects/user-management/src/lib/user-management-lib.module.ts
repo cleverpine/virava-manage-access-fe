@@ -15,17 +15,35 @@ import { DataGridComponent } from './components/data-grid/data-grid.component';
 import { UserManagementServiceLib } from './services/user-management-lib.service';
 
 import { UserManagementModuleConfig } from './models/user-management-lib-config';
+import { NotificationService } from '../public-api';
 
 @NgModule({
-  declarations: [UsersListingComponent, DataGridComponent, UsersUpdateComponent, DialogComponent],
-  imports: [CommonModule, GridAllModule, LibRoutingModule, GridModule, MaterialModule, ReactiveFormsModule],
-  exports: [UsersListingComponent],
+  declarations: [
+    UsersListingComponent,
+    DataGridComponent,
+    UsersUpdateComponent,
+    DialogComponent,
+  ],
+  imports: [
+    CommonModule,
+    GridAllModule,
+    LibRoutingModule,
+    GridModule,
+    MaterialModule,
+    ReactiveFormsModule,
+  ],
+  exports: [UsersListingComponent, NotificationService],
 })
 export class UserManagementModuleLib {
-  static forRoot(config: UserManagementModuleConfig): ModuleWithProviders<UserManagementModuleLib> {
+  static forRoot(
+    config: UserManagementModuleConfig
+  ): ModuleWithProviders<UserManagementModuleLib> {
     return {
       ngModule: UserManagementModuleLib,
-      providers: [UserManagementServiceLib, { provide: 'config', useValue: config }],
+      providers: [
+        UserManagementServiceLib,
+        { provide: 'config', useValue: config },
+      ],
     };
   }
 }

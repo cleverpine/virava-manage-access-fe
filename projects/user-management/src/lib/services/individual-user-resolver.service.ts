@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { AmUserInfoResponse } from './openapi/models';
-import { AmUserService } from './openapi/services/am-user.service';
+import { AmUserInfoResponse } from '../openapi/models';
+import { AmUserService } from '../openapi/services/am-user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserResolverService implements Resolve<AmUserInfoResponse> {
+export class SingleUserResolverService implements Resolve<AmUserInfoResponse> {
   constructor(private usersService: AmUserService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<AmUserInfoResponse> {

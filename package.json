@@ -1,6 +1,6 @@
 {
   "name": "virava-user-management",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
+    "@syncfusion/ej2-angular-grids": "^22.1.39",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

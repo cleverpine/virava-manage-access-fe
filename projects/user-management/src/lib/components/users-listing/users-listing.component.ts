@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { PageSettingsModel } from '@syncfusion/ej2-grids';
 
@@ -9,12 +9,10 @@ import { AmUser } from '../../openapi/models/am-user';
 import { AmUserInfo } from '../../openapi/models';
 import { AmUserService } from '../../openapi/services';
 
-import { EXCEL_NAME_PREFIX, PAGER_OPTIONS } from '../../constants/constants';
-import { USERS_TABLE_COLUMNS } from '../../constants/user-listing-columns';
+import { PAGER_OPTIONS } from '../../constants/constants';
 
 import { TableConfig, ColumnType } from '../../models/data-grid-models';
-
-import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
+import { DataGridColumn } from '../../models/data-grid-models';
 
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -31,7 +29,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   pageOptions: PageSettingsModel = {
     pageSizes: PAGER_OPTIONS,
   };
-  columns = [...USERS_TABLE_COLUMNS];
+  columns: DataGridColumn[] = [{ field: 'username', headerText: 'U Number', allowSorting: true, allowFiltering: true }];
   USERS_LISTING_TABLE_CONFIG: TableConfig = {
     allowSelection: false,
     showColumnChooser: true,
@@ -50,17 +48,36 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   constructor(
     private usersService: AmUserService,
     private router: Router,
+    private route: ActivatedRoute,
     private dialog: MatDialog,
     private notificationService: NotificationService,
     private userManagementServiceLib: UserManagementServiceLib,
   ) {}
 
   ngOnInit(): void {
+    this.addColumns();
+    this.users = this.route.snapshot.data?.['resolveData'].data.users;
+  }
+
+  addColumns(): void {
+    const columnsOrder = this.route.snapshot.data?.['resolveData'].data.usersTableOrder;
+    for (const name of columnsOrder) {
+      this.columns.push({
+        field: `data.${name}`,
+        headerText: name,
+        allowSorting: true,
+        allowFiltering: true,
+      });
+    }
+    this.addActionColumn();
+  }
+
+  addActionColumn(): void {
     this.columns.push({
       field: 'actions',
       headerText: 'Actions',
       type: ColumnType.Actions,
-      width: 90,
+      width: 100,
       className: 'users-actions-column',
       allowFiltering: false,
       allowSorting: false,
@@ -72,23 +89,6 @@ export class UsersListingComponent implements OnInit, OnDestroy {
         },
       ],
     });
-
-    this.getData();
-  }
-
-  getData(): void {
-    this.usersService
-      .getAllUsers()
-      .pipe(takeUntil(this.unsubscribe$), isNotNullOrUndefined())
-      .subscribe({
-        next: (response: any) => {
-          const { data } = response;
-          this.users = data;
-        },
-        error: (err: any) => {
-          this.notificationService.dispatchError(err);
-        },
-      });
   }
 
   handleRowClick(data: { navigationRoute: string; rowItemData: AmUser }): void {
@@ -110,7 +110,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
       if (result) {
         this.usersService.deleteUser({ id: user.id as number }).subscribe({
           next: () => {
-            this.getData();
+            this.users = this.users.filter((u) => u.id !== user.id);
             this.notificationService.dispatchSuccess('successMessages.successfullyDeleted');
           },
           error: (err: any) => {
