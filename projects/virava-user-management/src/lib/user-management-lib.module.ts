@@ -2,6 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GridAllModule, GridModule } from '@syncfusion/ej2-angular-grids';
+import { HttpClientModule } from '@angular/common/http'; // <-- import here
 
 import { MaterialModule } from './material/material.module';
 
@@ -30,6 +31,7 @@ import { UserManagementModuleConfig } from './models/user-management-lib-config'
     GridModule,
     MaterialModule,
     ReactiveFormsModule,
+    HttpClientModule, // <-- add to imports here
   ],
   exports: [UsersListingComponent],
 })
