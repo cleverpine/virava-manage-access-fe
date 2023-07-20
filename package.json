@@ -1,10 +1,10 @@
 {
   "name": "virava-user-management",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng-packagr -p ng-package.json",
     "build-library": "ng build virava-user-management",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -12,18 +12,18 @@
   "private": false,
   "dependencies": {
     "@angular-devkit/build-angular": "^14.2.0",
+    "@angular/cli": "^14.2.0",
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
-    "@angular/router": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "@angular/cli": "^14.2.0",
     "@angular/forms": "^14.2.0",
     "@angular/material": "^14.2.0",
+    "@angular/router": "^14.2.0",
     "@syncfusion/ej2-angular-grids": "20.2.43",
     "@syncfusion/ej2-angular-inputs": "20.2.45",
     "@syncfusion/ej2-angular-notifications": "20.2.43",
-    "tslib": "^2.3.0",
     "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
     "typescript": "~4.8.2"
   },
   "devDependencies": {
