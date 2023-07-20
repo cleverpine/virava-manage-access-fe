@@ -1,0 +1,18 @@
+{
+  "name": "virava-user-management",
+  "version": "0.0.8",
+  "peerDependencies": {
+    "@angular/common": "^14.2.0",
+    "@angular/compiler": "^14.2.0",
+    "@angular/core": "^14.2.0",
+    "@angular/router": "^14.2.0",
+    "@angular/forms": "^14.2.0",
+    "@angular/material": "^14.2.0",
+    "@syncfusion/ej2-angular-grids": "20.2.43",
+    "@syncfusion/ej2-angular-inputs": "20.2.45",
+    "@syncfusion/ej2-angular-notifications": "20.2.43"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -44,7 +44,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSlideToggleModule,
     MatTooltipModule,
     MatChipsModule,
-    DragDropModule,
+    // DragDropModule,
   ],
   exports: [
     MatIconModule,
@@ -62,7 +62,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSlideToggleModule,
     MatTooltipModule,
     MatChipsModule,
-    DragDropModule,
+    // DragDropModule,
   ],
   providers: [
     {

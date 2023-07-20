@@ -15,7 +15,6 @@ import { DataGridComponent } from './components/data-grid/data-grid.component';
 import { UserManagementServiceLib } from './services/user-management-lib.service';
 
 import { UserManagementModuleConfig } from './models/user-management-lib-config';
-import { NotificationService } from '../public-api';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,7 @@ import { NotificationService } from '../public-api';
     MaterialModule,
     ReactiveFormsModule,
   ],
-  exports: [UsersListingComponent, NotificationService],
+  exports: [UsersListingComponent],
 })
 export class UserManagementModuleLib {
   static forRoot(

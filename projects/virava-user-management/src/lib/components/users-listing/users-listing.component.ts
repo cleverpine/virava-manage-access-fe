@@ -16,7 +16,7 @@ import { DataGridColumn } from '../../models/data-grid-models';
 
 import { DialogComponent } from '../dialog/dialog.component';
 
-import { NotificationService } from '../../services/error.service';
+import { NotificationService } from '../../services/notifications.service';
 import { UserManagementServiceLib } from '../../services/user-management-lib.service';
 
 @Component({
@@ -29,7 +29,14 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   pageOptions: PageSettingsModel = {
     pageSizes: PAGER_OPTIONS,
   };
-  columns: DataGridColumn[] = [{ field: 'username', headerText: 'U Number', allowSorting: true, allowFiltering: true }];
+  columns: DataGridColumn[] = [
+    {
+      field: 'username',
+      headerText: 'U Number',
+      allowSorting: true,
+      allowFiltering: true,
+    },
+  ];
   USERS_LISTING_TABLE_CONFIG: TableConfig = {
     allowSelection: false,
     showColumnChooser: true,
@@ -41,7 +48,9 @@ export class UsersListingComponent implements OnInit, OnDestroy {
     clientSide: true,
     allowExcelExport: {
       showExcelExportButton: true,
-      fileName: `${this.userManagementServiceLib.libConfig.excelFileNamePrefix}${new Date().toLocaleDateString()}`,
+      fileName: `${
+        this.userManagementServiceLib.libConfig.excelFileNamePrefix
+      }${new Date().toLocaleDateString()}`,
     },
   };
 
@@ -51,7 +60,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private notificationService: NotificationService,
-    private userManagementServiceLib: UserManagementServiceLib,
+    private userManagementServiceLib: UserManagementServiceLib
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +69,8 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   }
 
   addColumns(): void {
-    const columnsOrder = this.route.snapshot.data?.['resolveData'].data.usersTableOrder;
+    const columnsOrder =
+      this.route.snapshot.data?.['resolveData'].data.usersTableOrder;
     for (const name of columnsOrder) {
       this.columns.push({
         field: `data.${name}`,
@@ -111,7 +121,9 @@ export class UsersListingComponent implements OnInit, OnDestroy {
         this.usersService.deleteUser({ id: user.id as number }).subscribe({
           next: () => {
             this.users = this.users.filter((u) => u.id !== user.id);
-            this.notificationService.dispatchSuccess('successMessages.successfullyDeleted');
+            this.notificationService.dispatchSuccess(
+              'successMessages.successfullyDeleted'
+            );
           },
           error: (err: any) => {
             this.notificationService.dispatchError(err);

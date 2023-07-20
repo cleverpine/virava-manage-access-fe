@@ -17,7 +17,7 @@ import {
 
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
-import { NotificationService } from '../../services/error.service';
+import { NotificationService } from '../../services/notifications.service';
 import { UserManagementServiceLib } from '../../services/user-management-lib.service';
 
 import { ResourcePermissionCondition } from '../../models/user-management-lib-config';
