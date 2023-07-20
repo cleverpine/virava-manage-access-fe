@@ -1,6 +1,6 @@
 {
-  "name": "user-management",
-  "version": "0.0.1",
+  "name": "virava-user-management",
+  "version": "0.0.6",
   "peerDependencies": {
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
@@ -13,7 +13,8 @@
     "@syncfusion/ej2-angular-notifications": "20.2.43",
     "ng-openapi-gen": "^0.24.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "ng-packagr": "^15.0.0"
   },
   "scripts": {
     "generate:api": "ng-openapi-gen --input ./users-management-api/users-management-api.yml --output ./src/lib/openapi/ && echo API generated",
