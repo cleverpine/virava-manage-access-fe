@@ -80,7 +80,7 @@
                 Assigned
                 {{
                   resourcePermission?.name?.charAt(0) +
-                    resourcePermission?.name?.slice(1).toLowerCase()
+                    resourcePermission?.name?.slice(1)?.toLowerCase()
                 }}s:
               </h1>
               <mat-chip-list *ngIf="resourcePermission.name">
