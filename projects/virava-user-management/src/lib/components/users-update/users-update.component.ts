@@ -296,6 +296,14 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     this.router.navigate([`users-management/users`]);
   }
 
+  capitalizeFirstLetter(str: string | undefined) {
+    if (!str) {
+      return;
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

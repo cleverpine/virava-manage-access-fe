@@ -78,10 +78,7 @@
               </mat-form-field>
               <h1>
                 Assigned
-                {{
-                  resourcePermission?.name?.charAt(0) +
-                    resourcePermission?.name?.slice(1)?.toLowerCase()
-                }}s:
+                {{ capitalizeFirstLetter(resourcePermission.name) }}s:
               </h1>
               <mat-chip-list *ngIf="resourcePermission.name">
                 <mat-chip
