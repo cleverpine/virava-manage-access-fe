@@ -133,7 +133,17 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$), isNotNullOrUndefined())
       .subscribe({
         next: (res) => {
-          this.resourcePermissions = res.data;
+          // Sort the resource permissions so that LOCATION is always first
+          this.resourcePermissions = res.data.sort(
+            (permissionA: AmPermission, permissionB: AmPermission) => {
+              if (permissionA.name === 'LOCATION') {
+                return -1;
+              } else if (permissionB.name === 'LOCATION') {
+                return 1;
+              }
+              return 0;
+            }
+          );
 
           // Add the values of every provided resource permission
           for (const resourcePermission of this.resourcePermissions) {

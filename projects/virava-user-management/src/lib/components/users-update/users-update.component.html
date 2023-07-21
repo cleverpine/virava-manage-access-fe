@@ -1,7 +1,11 @@
 <div class="card-layout-wrapper">
   <mat-label class="title">U Number: {{ user.username }} </mat-label>
 
-  <form [formGroup]="userUpdateForm" (ngSubmit)="updateUser()" class="form-container">
+  <form
+    [formGroup]="userUpdateForm"
+    (ngSubmit)="updateUser()"
+    class="form-container"
+  >
     <div class="users-update-container">
       <div class="update-container">
         <div class="selectbox-container">
@@ -9,8 +13,11 @@
             <mat-label>Select Role(s)</mat-label>
             <mat-select formControlName="roles" multiple required>
               <mat-select-trigger> </mat-select-trigger>
-              <mat-option (click)="toggleAllOptions('roles')" class="select-all-button">
-                {{ toggleAllOptionsState ? 'Deselect All' : 'Select All' }}
+              <mat-option
+                (click)="toggleAllOptions('roles')"
+                class="select-all-button"
+              >
+                {{ toggleAllOptionsState ? "Deselect All" : "Select All" }}
               </mat-option>
               <mat-option *ngFor="let role of roles" [value]="role">
                 {{ role.name }}
@@ -37,30 +44,59 @@
 
     <div>
       <div class="users-update-container">
-        <ng-container *ngFor="let resourcePermission of this.resourcePermissions">
-          <div class="update-container" *ngIf="showResourcePermissions(resourcePermission)">
+        <ng-container
+          *ngFor="let resourcePermission of this.resourcePermissions"
+        >
+          <div
+            class="update-container"
+            *ngIf="showResourcePermissions(resourcePermission)"
+          >
             <div class="selectbox-container">
               <mat-form-field class="selectbox-input">
-                <mat-label> Select {{ resourcePermission?.name?.toLowerCase() }}s </mat-label>
-                <mat-select formControlName="{{ resourcePermission.name }}" multiple>
+                <mat-label>
+                  Select {{ resourcePermission?.name?.toLowerCase() }}s
+                </mat-label>
+                <mat-select
+                  formControlName="{{ resourcePermission.name }}"
+                  multiple
+                >
                   <mat-select-trigger> </mat-select-trigger>
-                  <mat-option (click)="toggleAllOptions(resourcePermission.name)" class="select-all-button">
-                    {{ toggleAllOptionsState ? 'Deselect All' : 'Select All' }}
+                  <mat-option
+                    (click)="toggleAllOptions(resourcePermission.name)"
+                    class="select-all-button"
+                  >
+                    {{ toggleAllOptionsState ? "Deselect All" : "Select All" }}
                   </mat-option>
 
-                  <mat-option *ngFor="let value of resourcePermission.values" [value]="value">
+                  <mat-option
+                    *ngFor="let value of resourcePermission.values"
+                    [value]="value"
+                  >
                     {{ value.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <h1>Assigned {{ resourcePermission?.name?.toLowerCase() }}s:</h1>
+              <h1>
+                Assigned
+                {{
+                  resourcePermission?.name?.charAt(0) +
+                    resourcePermission?.name?.slice(1).toLowerCase()
+                }}s:
+              </h1>
               <mat-chip-list *ngIf="resourcePermission.name">
                 <mat-chip
-                  *ngFor="let resourceValue of userUpdateForm.get(resourcePermission.name)?.value ?? []"
+                  *ngFor="
+                    let resourceValue of userUpdateForm.get(
+                      resourcePermission.name
+                    )?.value ?? []
+                  "
                   [removable]="true"
                   (removed)="
                     resourcePermission.name &&
-                      onChipRemoved(userUpdateForm.get(resourcePermission.name)!, resourceValue)
+                      onChipRemoved(
+                        userUpdateForm.get(resourcePermission.name)!,
+                        resourceValue
+                      )
                   "
                   color="primary"
                   selected
@@ -76,7 +112,12 @@
     </div>
 
     <div class="buttons-container">
-      <button mat-raised-button class="custom-btn-secondary back-button" (click)="onBackButtonClick()" type="button">
+      <button
+        mat-raised-button
+        class="custom-btn-secondary back-button"
+        (click)="onBackButtonClick()"
+        type="button"
+      >
         Back
       </button>
       <button
