@@ -87,12 +87,19 @@ export class UsersListingComponent implements OnInit, OnDestroy {
 
   private getLoggedUserId() {
     console.log(
-      this.users.find(
-        (user) =>
+      this.users.find((user) => {
+        console.log('user', user);
+        console.log(
+          'this.userManagementServic',
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+        );
+
+        return (
           user.username?.toLowerCase() ===
           this.userManagementServiceLib.libConfig.loggedUserInfo?.username
             ?.toLowerCase
-      )
+        );
+      })
     );
 
     console.log(
