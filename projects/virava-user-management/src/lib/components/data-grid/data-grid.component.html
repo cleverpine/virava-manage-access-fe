@@ -48,7 +48,10 @@
           >
             <div
               class="{{ column.className }}"
-              *ngIf="column.actionsConfig.loggedUserId !== item.id"
+              *ngIf="
+                column.actionsConfig.loggedUserId &&
+                column.actionsConfig.loggedUserId !== item.id
+              "
             >
               <button
                 *ngFor="let actionValue of column.actionsConfig"
