@@ -100,6 +100,17 @@ export class UsersListingComponent implements OnInit, OnDestroy {
             this.userManagementServiceLib.libConfig.loggedUserInfo?.username
         );
 
+        console.log('LOOK HERE');
+
+        console.log(
+          '!!!! user.username?.toLowerCase()',
+          user.username?.toLowerCase()
+        );
+        console.log(
+          '!!!! loggedUserInfo?.username',
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+        );
+
         return (
           user.username?.toLowerCase() ===
           this.userManagementServiceLib.libConfig.loggedUserInfo?.username
