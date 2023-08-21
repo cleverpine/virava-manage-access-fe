@@ -105,7 +105,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   handleRowClick(data: { navigationRoute: string; rowItemData: AmUser }): void {
     const loggedUserId = this.userManagementServiceLib.libConfig.loggedUserId;
 
-    const isCurrentUser = loggedUserId === data.rowItemData.id;
+    const isCurrentUser = loggedUserId == data.rowItemData.id;
 
     if (isCurrentUser) {
       return;

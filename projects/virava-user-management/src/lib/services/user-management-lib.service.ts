@@ -7,6 +7,8 @@ export class UserManagementServiceLib {
   constructor(@Inject('config') private config: UserManagementModuleConfig) {}
 
   get libConfig() {
+    console.log(this.config);
+
     return this.config;
   }
 }
