@@ -94,6 +94,12 @@ export class UsersListingComponent implements OnInit, OnDestroy {
           this.userManagementServiceLib.libConfig.loggedUserInfo?.username
         );
 
+        console.log(
+          'user.username?.toLowerCase()',
+          user.username?.toLowerCase() ===
+            this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+        );
+
         return (
           user.username?.toLowerCase() ===
           this.userManagementServiceLib.libConfig.loggedUserInfo?.username
@@ -103,7 +109,23 @@ export class UsersListingComponent implements OnInit, OnDestroy {
     );
 
     console.log(
-      this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+      'id',
+      this.users.find(
+        (user) =>
+          user.username?.toLowerCase() ===
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+            ?.toLowerCase
+      )?.id
+    );
+
+    console.log(
+      'with 0',
+      this.users.find(
+        (user) =>
+          user.username?.toLowerCase() ===
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+            ?.toLowerCase
+      )?.id || 0
     );
 
     return (
