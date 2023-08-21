@@ -9,4 +9,8 @@ export class UserManagementServiceLib {
   get libConfig() {
     return this.config;
   }
+
+  setLibConfig(newConfig: UserManagementModuleConfig) {
+    this.config = { ...this.config, ...newConfig };
+  }
 }

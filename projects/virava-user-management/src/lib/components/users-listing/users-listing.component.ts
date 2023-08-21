@@ -26,6 +26,7 @@ import { UserManagementServiceLib } from '../../services/user-management-lib.ser
 export class UsersListingComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   users: AmUser[] = [];
+  loggedUserId!: number;
   pageOptions: PageSettingsModel = {
     pageSizes: PAGER_OPTIONS,
   };
@@ -66,6 +67,8 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.addColumns();
     this.users = this.route.snapshot.data?.['resolveData'].data.users;
+
+    this.loggedUserId = this.getLoggedUserId();
   }
 
   addColumns(): void {
@@ -82,6 +85,17 @@ export class UsersListingComponent implements OnInit, OnDestroy {
     this.addActionColumn();
   }
 
+  private getLoggedUserId() {
+    return (
+      this.users.find(
+        (user) =>
+          user.username?.toLowerCase() ===
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
+            ?.toLowerCase
+      )?.id || 0
+    );
+  }
+
   addActionColumn(): void {
     this.columns.push({
       field: 'actions',
@@ -96,17 +110,16 @@ export class UsersListingComponent implements OnInit, OnDestroy {
           tooltip: 'Delete',
           icon: 'delete',
           action: (user: AmUserInfo) => this.onDelete(user),
-          loggedUserId: this.userManagementServiceLib.libConfig.loggedUserId,
+          loggedUserId: this.loggedUserId,
         },
       ],
     });
   }
 
   handleRowClick(data: { navigationRoute: string; rowItemData: AmUser }): void {
-    const loggedUserId = this.userManagementServiceLib.libConfig.loggedUserId;
-    const isCurrentUser = loggedUserId == data.rowItemData.id;
+    const isCurrentUser = this.loggedUserId == data.rowItemData.id;
 
-    if (isCurrentUser && !this.isAdminUser(loggedUserId)) {
+    if (isCurrentUser && !this.isAdminUser(this.loggedUserId)) {
       return;
     }
 
