@@ -1,6 +1,6 @@
 {
   "name": "virava-user-management",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "peerDependencies": {
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
