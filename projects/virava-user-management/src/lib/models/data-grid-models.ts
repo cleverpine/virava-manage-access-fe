@@ -52,6 +52,7 @@ interface ActionsConfigProps {
   readonly tooltip: string;
   readonly icon: string;
   readonly action: (item?: any) => void;
+  readonly loggedUserId?: number;
 }
 
 export interface DataGridColumn {
