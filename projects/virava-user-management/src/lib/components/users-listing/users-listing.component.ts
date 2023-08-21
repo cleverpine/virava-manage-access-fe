@@ -121,7 +121,13 @@ export class UsersListingComponent implements OnInit, OnDestroy {
     const currentUser = this.users.find((user) => user.id === loggedUserId);
     const roles = currentUser?.data?.['Roles'];
 
-    return roles ? roles.split(', ').includes('admin') : false;
+    if (!roles) {
+      return false;
+    }
+
+    const roleArray = roles.split(', ');
+
+    return roleArray.includes('admin') || roleArray.includes('ALL');
   }
 
   onDelete(user: AmUser): void {
