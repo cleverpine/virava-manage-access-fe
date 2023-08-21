@@ -104,27 +104,20 @@ export class UsersListingComponent implements OnInit, OnDestroy {
 
   handleRowClick(data: { navigationRoute: string; rowItemData: AmUser }): void {
     const loggedUserId = this.userManagementServiceLib.libConfig.loggedUserId;
-
     const isCurrentUser = loggedUserId == data.rowItemData.id;
 
-    console.log(
-      'this.userManagementServiceLib.libConfig.loggedUserId',
-      this.userManagementServiceLib.libConfig.loggedUserId
-    );
-    console.log('data.rowItemData.id', data.rowItemData.id);
-
-    if (isCurrentUser) {
-      return;
-    }
-
-    if (loggedUserId && this.isAdminUser(loggedUserId)) {
+    if (isCurrentUser && !this.isAdminUser(loggedUserId)) {
       return;
     }
 
     this.router.navigate([`users-management/users/${data.rowItemData.id}`]);
   }
 
-  private isAdminUser(loggedUserId: string | number): boolean {
+  private isAdminUser(loggedUserId: number | undefined): boolean {
+    if (!loggedUserId) {
+      return false;
+    }
+
     const currentUser = this.users.find((user) => user.id === loggedUserId);
     const roles = currentUser?.data?.['Roles'];
 

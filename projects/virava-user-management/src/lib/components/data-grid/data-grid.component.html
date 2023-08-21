@@ -48,8 +48,10 @@
           >
             <div class="{{ column.className }}">
               <ng-template *ngFor="let actionValue of column.actionsConfig">
-                {{ actionValue.loggedUserId }}
-                {{ item.id }}
+                <div>
+                  {{ actionValue.loggedUserId }}
+                  {{ item.id }}
+                </div>
                 <!-- 
                 <button
                   *ngIf="actionValue.loggedUserId && actionValue != item.id"
