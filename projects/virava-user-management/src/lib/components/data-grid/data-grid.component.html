@@ -46,21 +46,17 @@
             #template
             let-item
           >
-            <div
-              class="{{ column.className }}"
-              *ngIf="
-                column.actionsConfig.loggedUserId &&
-                column.actionsConfig.loggedUserId !== item.id
-              "
-            >
-              <button
-                *ngFor="let actionValue of column.actionsConfig"
-                mat-icon-button
-                matTooltip="{{ actionValue.tooltip }} "
-                (click)="actionValue.action(item)"
-              >
-                <mat-icon> {{ actionValue.icon }}</mat-icon>
-              </button>
+            <div class="{{ column.className }}">
+              <ng-template *ngFor="let actionValue of column.actionsConfig">
+                <button
+                  *ngIf="actionValue.loggedUserId && actionValue !== item.id"
+                  mat-icon-button
+                  matTooltip="{{ actionValue.tooltip }} "
+                  (click)="actionValue.action(item)"
+                >
+                  <mat-icon> {{ actionValue.icon }}</mat-icon>
+                </button>
+              </ng-template>
             </div>
           </ng-template>
         </e-column>
