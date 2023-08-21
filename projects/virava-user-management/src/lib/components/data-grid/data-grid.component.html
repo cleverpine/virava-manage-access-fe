@@ -48,6 +48,9 @@
           >
             <div class="{{ column.className }}">
               <ng-template *ngFor="let actionValue of column.actionsConfig">
+                {{ actionValue.loggedUserId }}
+                {{ item.id }}
+                <!-- 
                 <button
                   *ngIf="actionValue.loggedUserId && actionValue != item.id"
                   mat-icon-button
@@ -55,7 +58,7 @@
                   (click)="actionValue.action(item)"
                 >
                   <mat-icon> {{ actionValue.icon }}</mat-icon>
-                </button>
+                </button> -->
               </ng-template>
             </div>
           </ng-template>

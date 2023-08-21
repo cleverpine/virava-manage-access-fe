@@ -107,6 +107,12 @@ export class UsersListingComponent implements OnInit, OnDestroy {
 
     const isCurrentUser = loggedUserId == data.rowItemData.id;
 
+    console.log(
+      'this.userManagementServiceLib.libConfig.loggedUserId',
+      this.userManagementServiceLib.libConfig.loggedUserId
+    );
+    console.log('data.rowItemData.id', data.rowItemData.id);
+
     if (isCurrentUser) {
       return;
     }
