@@ -96,13 +96,33 @@ export class UsersListingComponent implements OnInit, OnDestroy {
           tooltip: 'Delete',
           icon: 'delete',
           action: (user: AmUserInfo) => this.onDelete(user),
+          loggedUserId: this.userManagementServiceLib.libConfig.loggedUserId,
         },
       ],
     });
   }
 
   handleRowClick(data: { navigationRoute: string; rowItemData: AmUser }): void {
+    const loggedUserId = this.userManagementServiceLib.libConfig.loggedUserId;
+
+    const isCurrentUser = loggedUserId === data.rowItemData.id;
+
+    if (isCurrentUser) {
+      return;
+    }
+
+    if (loggedUserId && this.isAdminUser(loggedUserId)) {
+      return;
+    }
+
     this.router.navigate([`users-management/users/${data.rowItemData.id}`]);
+  }
+
+  private isAdminUser(loggedUserId: string | number): boolean {
+    const currentUser = this.users.find((user) => user.id === loggedUserId);
+    const roles = currentUser?.data?.['Roles'];
+
+    return roles ? roles.split(', ').includes('admin') : false;
   }
 
   onDelete(user: AmUser): void {

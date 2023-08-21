@@ -22,7 +22,9 @@
     [allowReordering]="configObj.allowColumnReordering"
     [allowRowDragAndDrop]="configObj.allowRowReordering"
     [allowTextWrap]="configObj.allowTextWrap"
-    [textWrapSettings]="configObj.allowTextWrap && { wrapMode: configObj.textWrapSettings }"
+    [textWrapSettings]="
+      configObj.allowTextWrap && { wrapMode: configObj.textWrapSettings }
+    "
     [enableHover]="configObj.enableHover"
     (headerCellInfo)="configObj.allowHeaderTooltip && headerCellInfo($event)"
     (dataBound)="onDataBound()"
@@ -39,8 +41,15 @@
           [allowFiltering]="column.allowFiltering"
           [visible]="column.visible"
         >
-          <ng-template *ngIf="column.type === columnType.Actions && column.actionsConfig" #template let-item>
-            <div class="{{ column.className }}">
+          <ng-template
+            *ngIf="column.type === columnType.Actions && column.actionsConfig"
+            #template
+            let-item
+          >
+            <div
+              class="{{ column.className }}"
+              *ngIf="column.actionsConfig.id !== item.id"
+            >
               <button
                 *ngFor="let actionValue of column.actionsConfig"
                 mat-icon-button

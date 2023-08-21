@@ -6,4 +6,5 @@ export interface ResourcePermissionCondition {
 export interface UserManagementModuleConfig {
   readonly excelFileNamePrefix: string;
   readonly resourcePermissionCondition?: ResourcePermissionCondition;
+  readonly loggedUserId?: number;
 }
