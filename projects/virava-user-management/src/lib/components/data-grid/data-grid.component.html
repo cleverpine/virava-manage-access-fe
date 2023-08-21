@@ -49,7 +49,6 @@
             <div class="{{ column.className }}">
               <ng-template *ngFor="let actionValue of column.actionsConfig">
                 <button
-                  *ngIf="actionValue.loggedUserId && actionValue != item.id"
                   mat-icon-button
                   matTooltip="{{ actionValue.tooltip }} "
                   (click)="actionValue.action(item)"
