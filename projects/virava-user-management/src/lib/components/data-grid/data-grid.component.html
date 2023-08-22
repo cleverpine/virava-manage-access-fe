@@ -48,8 +48,6 @@
           >
             <div class="{{ column.className }}">
               <ng-container *ngFor="let actionValue of column.actionsConfig">
-                <div>{{ actionValue.loggedUserId }}</div>
-                <div>{{ item.id }}</div>
                 <button
                   *ngIf="actionValue.loggedUserId !== item.id"
                   mat-icon-button
