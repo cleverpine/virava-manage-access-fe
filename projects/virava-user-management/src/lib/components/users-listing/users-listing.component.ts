@@ -65,9 +65,9 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.users = this.route.snapshot.data?.['resolveData'].data.users;
     this.loggedUserId = this.getLoggedUserId();
     this.addColumns();
-    this.users = this.route.snapshot.data?.['resolveData'].data.users;
   }
 
   addColumns(): void {
