@@ -65,10 +65,9 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loggedUserId = this.getLoggedUserId();
     this.addColumns();
     this.users = this.route.snapshot.data?.['resolveData'].data.users;
-
-    this.loggedUserId = this.getLoggedUserId();
   }
 
   addColumns(): void {
@@ -109,7 +108,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
           tooltip: 'Delete',
           icon: 'delete',
           action: (user: AmUserInfo) => this.onDelete(user),
-          loggedUserId: this.getLoggedUserId(),
+          loggedUserId: this.loggedUserId,
         },
       ],
     });
