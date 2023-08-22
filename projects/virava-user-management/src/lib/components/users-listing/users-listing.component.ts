@@ -86,65 +86,11 @@ export class UsersListingComponent implements OnInit, OnDestroy {
   }
 
   private getLoggedUserId() {
-    console.log(
-      this.users.find((user) => {
-        console.log('user', user);
-        console.log(
-          'this.userManagementServic',
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-        );
-
-        console.log(
-          'user.username?.toLowerCase()',
-          user.username?.toLowerCase() ===
-            this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-        );
-
-        console.log('LOOK HERE');
-
-        console.log(
-          '!!!! user.username?.toLowerCase()',
-          user.username?.toLowerCase()
-        );
-        console.log(
-          '!!!! loggedUserInfo?.username',
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-        );
-
-        return (
-          user.username?.toLowerCase() ===
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-            ?.toLowerCase
-        );
-      })
-    );
-
-    console.log(
-      'id',
-      this.users.find(
-        (user) =>
-          user.username?.toLowerCase() ===
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-            ?.toLowerCase
-      )?.id
-    );
-
-    console.log(
-      'with 0',
-      this.users.find(
-        (user) =>
-          user.username?.toLowerCase() ===
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-            ?.toLowerCase
-      )?.id || 0
-    );
-
     return (
       this.users.find(
         (user) =>
           user.username?.toLowerCase() ===
-          this.userManagementServiceLib.libConfig.loggedUserInfo?.username
-            ?.toLowerCase
+          this.userManagementServiceLib.libConfig.loggedUserInfo?.username?.toLowerCase()
       )?.id || 0
     );
   }
