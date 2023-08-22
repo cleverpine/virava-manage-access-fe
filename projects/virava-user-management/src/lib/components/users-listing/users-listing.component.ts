@@ -136,7 +136,7 @@ export class UsersListingComponent implements OnInit, OnDestroy {
           tooltip: 'Delete',
           icon: 'delete',
           action: (user: AmUserInfo) => this.onDelete(user),
-          loggedUserId: this.loggedUserId,
+          loggedUserId: this.getLoggedUserId(),
         },
       ],
     });
