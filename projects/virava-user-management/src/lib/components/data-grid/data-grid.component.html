@@ -40,6 +40,7 @@
           [allowSorting]="column.allowSorting"
           [allowFiltering]="column.allowFiltering"
           [visible]="column.visible"
+          [filter]="column.filter||configObj.columnFilter"
         >
           <ng-template
             *ngIf="column.type === columnType.Actions && column.actionsConfig"
