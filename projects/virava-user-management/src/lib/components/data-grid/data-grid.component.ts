@@ -4,10 +4,9 @@ import { GridComponent, PageSettingsModel, parentsUntil } from '@syncfusion/ej2-
 import { ColumnMenuClickEventArgs } from '@syncfusion/ej2-grids';
 import { Tooltip } from '@syncfusion/ej2-popups';
 
-import { TableConfig, DataGridColumn } from '../../models/data-grid-models';
-import { ColumnType } from '../../models/data-grid-models';
+import { ColumnType, DataGridColumn, TableConfig } from '../../models/data-grid-models';
 
-import { DEFAULT_COLUMN_GRID_WIDTH, DEFAULT_ROW_GRID_HEIGHT, DEFAULT_PAGE_SIZE } from '../../constants/constants';
+import { DEFAULT_COLUMN_GRID_WIDTH, DEFAULT_PAGE_SIZE, DEFAULT_ROW_GRID_HEIGHT } from '../../constants/constants';
 
 import { UserManagementServiceLib } from '../../services/user-management-lib.service';
 
@@ -48,13 +47,14 @@ export class DataGridComponent {
     allowSorting: true,
     allowMultiSorting: true,
     allowFiltering: false,
-    allowPaging: true,
+    allowPaging: false,
     enableHover: true,
     allowExcelExport: {
       showExcelExportButton: false,
     },
     allowColumnReordering: true,
     pageSize: DEFAULT_PAGE_SIZE,
+    columnFilter: { operator: 'contains' }
   };
 
   onDataBound() {

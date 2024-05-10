@@ -30,6 +30,7 @@ export interface TableConfig {
     showExcelExportButton: boolean;
     fileName?: string;
   };
+  readonly columnFilter?: Record<string, string>;
 }
 
 export interface PagerData {
@@ -67,4 +68,5 @@ export interface DataGridColumn {
   readonly visible?: boolean;
   readonly checkboxFilter?: Record<string, boolean>;
   readonly className?: string;
+  readonly filter?:Record<string, boolean>;
 }
