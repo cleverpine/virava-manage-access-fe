@@ -14,3 +14,6 @@ resources:
 
 extends:
   template: pipeline-fe-library.yaml@templates
+  parameters:
+    libraryName: "virava-user-management"
+    installCommand: "install"
