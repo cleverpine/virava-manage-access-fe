@@ -1,6 +1,6 @@
 <div class="card-layout-wrapper">
   <mat-label class="title">U Number: {{ user.username }} </mat-label>
- 
+
   <form
     [formGroup]="userUpdateForm"
     (ngSubmit)="updateUser()"
@@ -24,7 +24,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
- 
+
           <h1>Assigned Roles:</h1>
         </div>
       </div>
@@ -41,7 +41,7 @@
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </mat-chip-list>
- 
+
     <div>
       <div class="users-update-container">
         <ng-container
@@ -62,7 +62,7 @@
                 >
                   <mat-select-trigger> </mat-select-trigger>
                   <mat-form-field *ngIf="isWorkshopSearchVisible" class="dropdown-search-field">
-                    <input matInput [formControl]="workshopSearchControl" placeholder="{{ 'common.search' | translate }}" />
+                    <input matInput [formControl]="workshopSearchControl" placeholder="Search" />
                   </mat-form-field>
                   <mat-option
                     (click)="toggleAllOptions(resourcePermission.name)"
@@ -70,7 +70,7 @@
                   >
                     {{ toggleAllOptionsState ? "Deselect All" : "Select All" }}
                   </mat-option>
- 
+
                   <mat-option
                     *ngFor="let value of ((isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP') ? filteredWorkshops : resourcePermission.values)"
                     [value]="value"
@@ -110,7 +110,7 @@
         </ng-container>
       </div>
     </div>
- 
+
     <div class="buttons-container">
       <button
         mat-raised-button
