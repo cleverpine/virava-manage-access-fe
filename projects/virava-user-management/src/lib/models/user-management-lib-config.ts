@@ -13,4 +13,5 @@ export interface UserManagementModuleConfig {
   readonly excelFileNamePrefix: string;
   readonly resourcePermissionCondition?: ResourcePermissionCondition;
   readonly loggedUserInfo?: UserInfo;
+  readonly isWorkshopSearchVisible?: boolean;
 }

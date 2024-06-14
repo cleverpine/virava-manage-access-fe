@@ -1,6 +1,6 @@
 <div class="card-layout-wrapper">
   <mat-label class="title">U Number: {{ user.username }} </mat-label>
-
+ 
   <form
     [formGroup]="userUpdateForm"
     (ngSubmit)="updateUser()"
@@ -24,7 +24,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-
+ 
           <h1>Assigned Roles:</h1>
         </div>
       </div>
@@ -41,7 +41,7 @@
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
     </mat-chip-list>
-
+ 
     <div>
       <div class="users-update-container">
         <ng-container
@@ -61,15 +61,18 @@
                   multiple
                 >
                   <mat-select-trigger> </mat-select-trigger>
+                  <mat-form-field *ngIf="isWorkshopSearchVisible" class="dropdown-search-field">
+                    <input matInput [formControl]="workshopSearchControl" placeholder="{{ 'common.search' | translate }}" />
+                  </mat-form-field>
                   <mat-option
                     (click)="toggleAllOptions(resourcePermission.name)"
                     class="select-all-button"
                   >
                     {{ toggleAllOptionsState ? "Deselect All" : "Select All" }}
                   </mat-option>
-
+ 
                   <mat-option
-                    *ngFor="let value of resourcePermission.values"
+                    *ngFor="let value of ((isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP') ? filteredWorkshops : resourcePermission.values)"
                     [value]="value"
                   >
                     {{ value.name }}
@@ -78,7 +81,7 @@
               </mat-form-field>
               <h1>
                 Assigned
-                {{ capitalizeFirstLetter(resourcePermission.name) }}s:
+                {{ resourcePermission.name | titlecase }}:
               </h1>
               <mat-chip-list *ngIf="resourcePermission.name">
                 <mat-chip
@@ -107,7 +110,7 @@
         </ng-container>
       </div>
     </div>
-
+ 
     <div class="buttons-container">
       <button
         mat-raised-button
