@@ -1,31 +1,32 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-
+ 
 import { AmPermission, AmUserInfo } from '../../openapi/models';
 import {
   AmPermissionService,
   AmResourceService,
   AmUserService,
 } from '../../openapi/services';
-
+ 
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
-
+ 
 import { NotificationService } from '../../services/notifications.service';
 import { UserManagementServiceLib } from '../../services/user-management-lib.service';
-
-import { ResourcePermissionCondition } from '../../models/user-management-lib-config';
+ 
 import { ResourcePermissionFull } from '../../models/resource-permission-full';
 import { UpdateUserParams } from '../../models/update-user-params';
-
+import { ResourcePermissionCondition } from '../../models/user-management-lib-config';
+ 
 import { constructRpForRequest } from '../../helpers/construct-rp-for-request';
-
+ 
 @Component({
   selector: 'users-update',
   templateUrl: './users-update.component.html',
@@ -38,14 +39,19 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
   resourcePermissions!: ResourcePermissionFull[];
   resourcePermissionCondition!: ResourcePermissionCondition | undefined;
   userUpdateForm!: FormGroup;
-
+ 
+  filteredWorkshops: any[] = [];
+  workshopSearchControl = new FormControl('');
+  allSelectedWorkshops: any[] = [];
+  workshops: any[] = [];
+  isWorkshopSearchVisible: boolean = false;
+ 
   toggleAllOptionsState: boolean = false;
   showConditionPermission: boolean = false;
-
+ 
   rolesControl!: AbstractControl;
-  workshopsControl!: AbstractControl;
   locationsControl!: AbstractControl;
-
+ 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -56,62 +62,66 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private userManagementServiceLib: UserManagementServiceLib
   ) {}
-
-  ngOnInit(): void {
+ 
+  ngOnInit(): void { 
     this.userUpdateForm = this.formBuilder.group({
       roles: [[], [Validators.required]],
     });
     this.rolesControl = this.userUpdateForm.get('roles')!;
-
-    this.resourcePermissionCondition =
-      this.userManagementServiceLib.libConfig.resourcePermissionCondition;
-
+ 
+    this.resourcePermissionCondition = this.userManagementServiceLib.libConfig.resourcePermissionCondition;
+    this.isWorkshopSearchVisible = !!this.userManagementServiceLib.libConfig.isWorkshopSearchVisible;
+    
     this.user = this.route.snapshot.data?.['resolveData'].data;
-
+ 
     this.getResourcePermissions();
     this.getRoles();
-
+ 
     // Check if any show condition is set and add validators
-    this.rolesControl?.valueChanges.subscribe((roles) => {
+    this.rolesControl?.valueChanges.subscribe((roles: AmPermission[]) => {
       this.showConditionPermission = roles.some((role: AmPermission) =>
         this.resourcePermissionCondition?.roles.includes(role.name as string)
       );
-
+ 
       this.assignResourcePermissionValidators();
     });
+ 
+    if (this.isWorkshopSearchVisible) {
+      this.setSearchControls();
+    }
   }
-
+ 
   // Check if any resource permission condition is set
   showResourcePermissions(resourcePermission: AmPermission) {
     if (this.resourcePermissionCondition?.name !== resourcePermission.name) {
       return true;
     }
-
+ 
     return (
       this.resourcePermissionCondition?.name === resourcePermission.name &&
       this.showConditionPermission
     );
   }
-
+ 
   assignResourcePermissionValidators() {
     if (!this.resourcePermissionCondition) {
       return;
     }
-
+ 
     const updateForm = this.userUpdateForm.get(
       this.resourcePermissionCondition.name
     );
-
+ 
     if (this.showConditionPermission) {
       updateForm?.setValidators([Validators.required]);
     } else {
       updateForm?.setValue([]);
       updateForm?.setValidators([]);
     }
-
+ 
     updateForm?.updateValueAndValidity();
   }
-
+ 
   getRoles() {
     this.permissionService
       .getPermissions()
@@ -126,7 +136,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         },
       });
   }
-
+ 
   getResourcePermissions() {
     this.resourceService
       .getAllResources()
@@ -144,7 +154,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
               return 0;
             }
           );
-
+ 
           // Add the values of every provided resource permission
           for (const resourcePermission of this.resourcePermissions) {
             this.getResourcePermissionValues(resourcePermission.name as string);
@@ -159,12 +169,16 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         },
       });
   }
-
+ 
+  private sortArrayBy(array: any[], key: string) {
+    return [...array.sort((a, b) => a[key].localeCompare(b[key]))];
+  }
+ 
   private getResourcePermissionValues(resourcePermission: string) {
     const params = {
       resourceName: resourcePermission,
     };
-
+ 
     return this.resourceService
       .getUserResourcesByName(params)
       .pipe(takeUntil(this.unsubscribe$), isNotNullOrUndefined())
@@ -173,23 +187,23 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
           let currentResourcePermission = this.resourcePermissions.find(
             (resource) => resource.name === resourcePermission
           );
-
+ 
           if (!currentResourcePermission) {
             return;
           }
-
+ 
           currentResourcePermission.values = res.data;
-
+ 
           // Taking the current USER resource permissions
           const userResourcePermissionMap =
             this.user.resourcePermissions?.resourcePermissionMap;
           const userResourcePermissionValueIds =
             userResourcePermissionMap?.[resourcePermission]?.ids || [];
-
+ 
           if (userResourcePermissionValueIds.length === 0) {
             return;
           }
-
+ 
           const currentResources = currentResourcePermission.values.filter(
             (resource) =>
               resource.id
@@ -198,7 +212,13 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
                   )
                 : false
           );
-
+ 
+          // Use the showDropdownSearchForPermission array to check if the current resource permission should be searchable
+          if (resourcePermission === 'WORKSHOP') {
+            this.filteredWorkshops = this.sortArrayBy(currentResources, 'name');
+            this.workshops = [...this.filteredWorkshops]
+          }
+ 
           // Assigning the current USER resource permissions to form
           this.userUpdateForm
             .get(resourcePermission)
@@ -209,47 +229,61 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         },
       });
   }
-
+ 
   // Assigning the current roles to form
   private assignRoles() {
     const userRoles = this.user.permissions;
-
+ 
     if (userRoles) {
       const existingRoles = userRoles
         .map((userRole) => this.roles.find((role) => userRole.id === role.id))
         .filter((role) => role !== undefined);
-
+ 
       this.rolesControl?.setValue(existingRoles as AmPermission[]);
     }
   }
-
+ 
+  private setSearchControls(): void {
+    this.workshopSearchControl.valueChanges.subscribe((searchText: string) => {
+      if (!searchText) {
+        this.filteredWorkshops = this.sortArrayBy(this.workshops, 'name');
+      } else {
+        this.filteredWorkshops = this.workshops.filter(
+          (workshop) => workshop.name?.toLowerCase().includes(searchText.toLowerCase()),
+        );
+      }
+    });
+  }
+ 
   // Select / Deselect all resource permissions
   toggleAllOptions(resourceName?: string) {
     if (!resourceName) {
       return;
     }
-
+ 
     this.toggleAllOptionsState = !this.toggleAllOptionsState;
-
+ 
     const allResourceValues =
       resourceName === 'roles'
         ? this.roles
         : this.resourcePermissions.find(
             (resource) => resource.name === resourceName
           )?.values;
-
+ 
     if (this.toggleAllOptionsState && allResourceValues?.length) {
+      this.allSelectedWorkshops = [...this.filteredWorkshops];
       this.userUpdateForm.get(resourceName)?.setValue([...allResourceValues]);
     } else {
+      this.allSelectedWorkshops = [];
       this.userUpdateForm.get(resourceName)?.setValue([]);
     }
   }
-
+ 
   updateUser(): void {
     if (!this.user.id) {
       return;
     }
-
+ 
     // Constructing params for request
     let params: UpdateUserParams = {
       id: this.user.id,
@@ -269,7 +303,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         },
       },
     };
-
+ 
     this.userService
       .updateUser(params)
       .pipe(takeUntil(this.unsubscribe$))
@@ -285,25 +319,46 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
         },
       });
   }
-
+ 
   onChipRemoved<T extends { id: number }>(control: AbstractControl, item: T) {
-    const items: T[] = control.value;
-    control.setValue(items.filter((chip: T) => chip.id !== item.id));
-    control.markAsDirty();
+    if (!this.isWorkshopSearchVisible) {
+      const items: T[] = control.value;
+      control.setValue(items.filter((chip: T) => chip.id !== item.id));
+      control.markAsDirty();
+    } else {
+      this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc.id !== item.id);
+      control.setValue(this.allSelectedWorkshops);
+    }
   }
-
+ 
+  onSelectionChange(event: any): void {
+    if (!this.isWorkshopSearchVisible) {
+      return;
+    }
+ 
+    const selected = event.value as any[];
+ 
+    // Find the newly selected or deselected item
+    const newSelection = selected.find(
+      (loc) => !this.allSelectedWorkshops.some((selectedLoc) => selectedLoc?.id === loc?.id),
+    );
+    const removedSelection = this.allSelectedWorkshops.find(
+      (loc) => !selected.some((selectedLoc) => selectedLoc?.id === loc?.id),
+    );
+ 
+    if (newSelection) {
+      this.allSelectedWorkshops.push(newSelection);
+    } else if (removedSelection) {
+      this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
+    }
+ 
+    this.userUpdateForm.controls['WORKSHOP'].setValue(this.allSelectedWorkshops);
+  }
+ 
   onBackButtonClick(): void {
     this.router.navigate([`users-management/users`]);
   }
-
-  capitalizeFirstLetter(str: string | undefined) {
-    if (!str) {
-      return;
-    }
-
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-
+ 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
