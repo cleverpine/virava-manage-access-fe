@@ -215,7 +215,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
 
           // Use the showDropdownSearchForPermission array to check if the current resource permission should be searchable
           if (resourcePermission === 'WORKSHOP') {
-            this.filteredWorkshops = this.sortArrayBy(currentResources, 'name');
+            this.filteredWorkshops = this.sortArrayBy(res.data, 'name');
             this.workshops = [...this.filteredWorkshops]
           }
 
