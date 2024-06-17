@@ -273,9 +273,10 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     if (this.toggleAllOptionsState && allResourceValues?.length) {
       if (resourceName === 'WORKSHOP') {
         this.allSelectedWorkshops = [...this.filteredWorkshops];
+        this.userUpdateForm.get(resourceName)?.setValue([...this.filteredWorkshops]);
+      } else {
+        this.userUpdateForm.get(resourceName)?.setValue([...allResourceValues]);
       }
-
-      this.userUpdateForm.get(resourceName)?.setValue([...allResourceValues]);
     } else {
       if (resourceName === 'WORKSHOP') {
         this.allSelectedWorkshops = [];
@@ -346,10 +347,10 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
 
     // Find the newly selected or deselected item
     const newSelection = selected.find(
-      (loc) => !this.allSelectedWorkshops.some((selectedLoc) => selectedLoc?.id === loc?.id),
+      (loc) => !this.allSelectedWorkshops.some((selected) => selected?.id === loc?.id),
     );
     const removedSelection = this.allSelectedWorkshops.find(
-      (loc) => !selected.some((selectedLoc) => selectedLoc?.id === loc?.id),
+      (loc) => !selected.some((selected) => selected?.id === loc?.id),
     );
 
     if (newSelection) {

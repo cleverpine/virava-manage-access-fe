@@ -61,7 +61,7 @@
                   multiple
                 >
                   <mat-select-trigger> </mat-select-trigger>
-                  <mat-form-field *ngIf="isWorkshopSearchVisible" class="dropdown-search-field">
+                  <mat-form-field *ngIf="isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP'" class="dropdown-search-field">
                     <input matInput [formControl]="workshopSearchControl" placeholder="Search" />
                   </mat-form-field>
                   <mat-option
