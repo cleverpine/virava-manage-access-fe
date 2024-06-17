@@ -332,35 +332,33 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     if (resourceName === 'WORKSHOP' && this.isWorkshopSearchVisible) {
       this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc.id !== item.id);
       control.setValue(this.allSelectedWorkshops);
-    } else if (!this.isWorkshopSearchVisible) {
+    } else {
       const items: T[] = control.value;
       control.setValue(items.filter((chip: T) => chip.id !== item.id));
       control.markAsDirty();
     }
   }
 
-  onSelectionChange(event: any): void {
-    if (!this.isWorkshopSearchVisible) {
-      return;
+  onSelectionChange(event: any, resourceName: string): void {
+    if (this.isWorkshopSearchVisible && resourceName && resourceName === 'WORKSHOP') {
+      const selected = event.value as any[];
+
+      // Find the newly selected or deselected item
+      const newSelection = selected.find(
+        (loc) => !this.allSelectedWorkshops.some((selected) => selected?.id === loc?.id),
+      );
+      const removedSelection = this.allSelectedWorkshops.find(
+        (loc) => !selected.some((selected) => selected?.id === loc?.id),
+      );
+
+      if (newSelection) {
+        this.allSelectedWorkshops.push(newSelection);
+      } else if (removedSelection) {
+        this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
+      }
+
+      this.userUpdateForm.get('WORKSHOP')?.setValue(this.allSelectedWorkshops);
     }
-
-    const selected = event.value as any[];
-
-    // Find the newly selected or deselected item
-    const newSelection = selected.find(
-      (loc) => !this.allSelectedWorkshops.some((selected) => selected?.id === loc?.id),
-    );
-    const removedSelection = this.allSelectedWorkshops.find(
-      (loc) => !selected.some((selected) => selected?.id === loc?.id),
-    );
-
-    if (newSelection) {
-      this.allSelectedWorkshops.push(newSelection);
-    } else if (removedSelection) {
-      this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
-    }
-
-    this.userUpdateForm.get('WORKSHOP')?.setValue(this.allSelectedWorkshops);
   }
 
   onBackButtonClick(): void {
