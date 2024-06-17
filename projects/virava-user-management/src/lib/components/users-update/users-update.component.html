@@ -33,7 +33,7 @@
       <mat-chip
         *ngFor="let role of userUpdateForm.get('roles')!.value"
         [removable]="true"
-        (removed)="onChipRemoved(userUpdateForm.get('roles')!, role)"
+        (removed)="onChipRemoved(userUpdateForm.get('roles')!, role, 'roles')"
         color="primary"
         selected
       >
@@ -59,6 +59,7 @@
                 <mat-select
                   formControlName="{{ resourcePermission.name }}"
                   multiple
+                  (selectionChange)="onSelectionChange($event)"
                 >
                   <mat-select-trigger> </mat-select-trigger>
                   <mat-form-field *ngIf="isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP'" class="dropdown-search-field">
@@ -95,7 +96,8 @@
                     resourcePermission.name &&
                       onChipRemoved(
                         userUpdateForm.get(resourcePermission.name)!,
-                        resourceValue
+                        resourceValue,
+                        resourcePermission.name
                       )
                   "
                   color="primary"
