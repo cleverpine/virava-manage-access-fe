@@ -62,6 +62,7 @@ import { UserManagementModuleLib } from 'virava-user-management';
     UserManagementModuleLib.forRoot({
       excelFileNamePrefix: EXCEL_NAME_PREFIX,
       resourcePermissionCondition: USERS_RESOURCE_PERMISSION_CONDITION,
+      isWorkshopSearchVisible: true,
     }),
   ],
 })
