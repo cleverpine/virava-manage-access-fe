@@ -328,14 +328,14 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       });
   }
 
-  onChipRemoved<T extends { id: number }>(control: AbstractControl, item: T) {
-    if (!this.isWorkshopSearchVisible) {
+  onChipRemoved<T extends { id: number }>(control: AbstractControl, item: T, resourceName: string) {
+    if (resourceName === 'WORKSHOP' && this.isWorkshopSearchVisible) {
+      this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc.id !== item.id);
+      control.setValue(this.allSelectedWorkshops);
+    } else if (!this.isWorkshopSearchVisible) {
       const items: T[] = control.value;
       control.setValue(items.filter((chip: T) => chip.id !== item.id));
       control.markAsDirty();
-    } else {
-      this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc.id !== item.id);
-      control.setValue(this.allSelectedWorkshops);
     }
   }
 
@@ -360,8 +360,6 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
     }
 
-    console.log(this.allSelectedWorkshops);
-    console.log(this.userUpdateForm.get('WORKSHOP')?.value);
     this.userUpdateForm.get('WORKSHOP')?.setValue(this.allSelectedWorkshops);
   }
 
