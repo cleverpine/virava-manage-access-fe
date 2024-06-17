@@ -271,10 +271,16 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
           )?.values;
 
     if (this.toggleAllOptionsState && allResourceValues?.length) {
-      this.allSelectedWorkshops = [...this.filteredWorkshops];
+      if (resourceName === 'WORKSHOP') {
+        this.allSelectedWorkshops = [...this.filteredWorkshops];
+      }
+
       this.userUpdateForm.get(resourceName)?.setValue([...allResourceValues]);
     } else {
-      this.allSelectedWorkshops = [];
+      if (resourceName === 'WORKSHOP') {
+        this.allSelectedWorkshops = [];
+      }
+
       this.userUpdateForm.get(resourceName)?.setValue([]);
     }
   }
@@ -352,7 +358,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
     }
 
-    this.userUpdateForm.controls['WORKSHOP'].setValue(this.allSelectedWorkshops);
+    this.userUpdateForm.get('WORKSHOP')?.setValue(this.allSelectedWorkshops);
   }
 
   onBackButtonClick(): void {
