@@ -216,7 +216,8 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
           // Use the showDropdownSearchForPermission array to check if the current resource permission should be searchable
           if (resourcePermission === 'WORKSHOP') {
             this.filteredWorkshops = this.sortArrayBy(res.data, 'name');
-            this.workshops = [...this.filteredWorkshops]
+            this.workshops = [...this.filteredWorkshops];
+            this.allSelectedWorkshops = [...currentResources];
           }
 
           // Assigning the current USER resource permissions to form
@@ -359,6 +360,8 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
       this.allSelectedWorkshops = this.allSelectedWorkshops.filter((loc) => loc?.id !== removedSelection?.id);
     }
 
+    console.log(this.allSelectedWorkshops);
+    console.log(this.userUpdateForm.get('WORKSHOP')?.value);
     this.userUpdateForm.get('WORKSHOP')?.setValue(this.allSelectedWorkshops);
   }
 
