@@ -59,7 +59,7 @@
                 <mat-select
                   formControlName="{{ resourcePermission.name }}"
                   multiple
-                  (selectionChange)="onSelectionChange($event)"
+                  (selectionChange)="onSelectionChange($event, resourcePermission.name!)"
                 >
                   <mat-select-trigger> </mat-select-trigger>
                   <mat-form-field *ngIf="isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP'" class="dropdown-search-field">
