@@ -335,8 +335,9 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
     } else {
       const items: T[] = control.value;
       control.setValue(items.filter((chip: T) => chip.id !== item.id));
-      control.markAsDirty();
     }
+
+    control.markAsDirty();
   }
 
   onSelectionChange(event: any, resourceName: string): void {
