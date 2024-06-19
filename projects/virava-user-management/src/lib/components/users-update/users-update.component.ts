@@ -194,6 +194,11 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
 
           currentResourcePermission.values = res.data;
 
+          if (resourcePermission === 'WORKSHOP') {
+            this.filteredWorkshops = this.sortArrayBy(res.data, 'name');
+            this.workshops = [...this.filteredWorkshops];
+          }
+
           // Taking the current USER resource permissions
           const userResourcePermissionMap =
             this.user.resourcePermissions?.resourcePermissionMap;
@@ -213,10 +218,7 @@ export class UsersUpdateComponent implements OnInit, OnDestroy {
                 : false
           );
 
-          // Use the showDropdownSearchForPermission array to check if the current resource permission should be searchable
           if (resourcePermission === 'WORKSHOP') {
-            this.filteredWorkshops = this.sortArrayBy(res.data, 'name');
-            this.workshops = [...this.filteredWorkshops];
             this.allSelectedWorkshops = [...currentResources];
           }
 
