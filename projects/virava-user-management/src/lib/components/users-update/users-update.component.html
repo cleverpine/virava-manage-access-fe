@@ -63,7 +63,7 @@
                 >
                   <mat-select-trigger> </mat-select-trigger>
                   <mat-form-field *ngIf="isWorkshopSearchVisible && resourcePermission.name === 'WORKSHOP'" class="dropdown-search-field">
-                    <input matInput [formControl]="workshopSearchControl" placeholder="Search" />
+                    <input matInput [formControl]="workshopSearchControl" placeholder="Search" (keydown.space)="$event.stopPropagation()" autocomplete="off"/>
                   </mat-form-field>
                   <mat-option
                     (click)="toggleAllOptions(resourcePermission.name)"
